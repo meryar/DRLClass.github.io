@@ -1,0 +1,162 @@
+Adrien GUEDET 11516525
+
+
+Apprentissage profond par renforcement
+
+
+
+Avancée finale: 
+	- la partie Cartpole fonctionne en entier. 
+	- la partie Breakout compile mais ne fonctionne pas bien que entierement codée.
+
+
+
+
+   					Cartpole:
+
+L’implémentation des réseaux de neurones s’est faite avec pytorch (fichier et classe DeepQNetwork). 
+
+Le reseau contient 3 couches de neurones prenant une entrée à 4 (taille de l’état), puis 16, puis 8 
+pour se retrouver avec une sortie de 2 (nombre d’actions possibles) avec activation sigmoid entre les couches (apparemment plus efficace que ReLU) car c'est ce qui donnait les meilleurs résultats.. 
+Pour la stratégie d’exploration, nous avons implémenté la stratégie greedy, pour la simplicité de sa mise en place. 
+
+La classe Agent va contenir les éléments nécessaires au Q-learning : 
+les réseaux de neurones eval et target, l’optimizer et la loss function. L’apprentissage se fait dans optimize_model().  
+les Q-valeurs sont calculées une à une, pour chaque ligne du batch. 
+
+	Résultats:
+
+Ces résultats sont ceux obtenus à partir des modèles correspondant (dossier model). Ceux-ci sont les plus représentatifs parmi les modèles testés avec les mêmes paramètres.
+
+_0 :
+epsilon = 0.1
+gamma = 0.95
+episode_number = 150
+lr = 0.001
+batch_size = 32
+reward_mean = 73.8 
+
+_1
+epsilon = 0.9
+gamma = 0.95
+episode_number = 150
+lr = 0.001
+batch_size = 32
+reward_mean = 144.595
+
+_2
+epsilon = 1.
+gamma = 0.95
+episode_number = 150
+lr = 0.001
+batch_size = 32
+reward_mean = 44.405
+
+_3
+epsilon = 0.5
+gamma = 0.95
+episode_number = 150
+lr = 0.001
+batch_size = 32
+reward_mean = 349.625
+
+_4
+epsilon = 0.1
+gamma = 0.99
+episode_number = 150
+lr = 0.001
+batch_size = 32
+reward_mean = 101.82
+
+_5
+epsilon = 0.1
+gamma = 0.999
+episode_number = 150
+lr = 0.001
+batch_size = 32
+reward_mean = 95.525
+
+_6
+epsilon = 0.1
+gamma = 0.9
+episode_number = 150
+lr = 0.001
+batch_size = 32
+reward_mean = 100.8
+
+_7
+epsilon = 0.1
+gamma = 0.95
+episode_number = 150
+lr = 0.01
+batch_size = 32
+reward_mean = 223.125
+
+_8
+epsilon = 0.1
+gamma = 0.95
+episode_number = 150
+lr = 0.0001
+batch_size = 32
+reward_mean = 32.605
+
+_9
+epsilon = 0.1
+gamma = 0.95
+episode_number = 150
+lr = 0.0001
+batch_size = 32
+refresh_gap = 10000
+reward_mean = 33.15
+
+_10
+epsilon = 0.1
+gamma = 0.95
+episode_number = 150
+lr = 0.001
+batch_size = 64
+reward_mean = 115.395
+
+_11
+epsilon = 0.1
+gamma = 0.95
+episode_number = 150
+lr = 0.001
+batch_size = 16
+reward_mean = 9.32
+
+
+epsilon est le parametre semblant avoir le plus d'impact sur les résultats (stratégie greedy). 
+Plus on s’approche de 0.5, plus le modèle est efficace. 
+Cela peut s’expliquer par le fait qu’une fois légèrement entraîné, il pourra se débrouiller pour ne pas mourir tout en étant toujours capable d'éxplorer pour s'améliorer. 
+
+Le learning rate à également une influence importante. 
+Le batch_size ne doit pas être trop bas sous peine de tomber sur de l’aléatoire. 
+Cependant, le placer trop haut ne fait que ralentir l’apprentissage, sans être spécialement plus efficace. 
+Gamma ne semble pas influer plus que ça sur l’apprentissage (pourvu qu’il soit suffisement élevé). 
+
+
+
+
+					Breakout:
+
+Pour cette partie, nous avons essayé de mettre en place un réseau de convolution. 
+Cependant, nous n'avons pas réussi à résoudre un problème de pré-processing qui semble toujours renvoyer le même état. 
+Au vu du réseau que nous avons, nous ne pouvons que supposer qu’il marche étant donné que l’algorithme de Q-Values 
+marche pour le réseaux précédent et que les états peuvent rentrer et traitées par ce nouveau réseau. 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
